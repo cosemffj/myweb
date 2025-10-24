@@ -37,8 +37,8 @@ app.get('/dog', (req, res) => {
 });
 
 app.get('/cat3', (req, res) => {
-    res.send('Hello world cat121')
-    console.log('cat1')
+    res.send('Hello world cat3')
+    console.log('cat3')
 });
 
 // get 방식 파라미터 전달
