@@ -1,10 +1,10 @@
-name: Deploy
-
-on: [push]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print message
-        run: echo "GitHub Actions 작동 확인!"
+- name: SSH to NAS
+  uses: appleboy/ssh-action@v0.1.10
+  with:
+    host: ${{ secrets.NAS_IP }}       # 여기서 Secrets 참조
+    username: ${{ secrets.NAS_USER }}
+    key: ${{ secrets.NAS_SSH_KEY }}
+    script: |
+      cd /volume1/web/myapp
+      git pull origin main
+      pm2 restart all
