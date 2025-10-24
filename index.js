@@ -41,7 +41,6 @@ app.get('/cat3', (req, res) => {
     console.log('cat1')
 });
 
-
 // get 방식 파라미터 전달
 // http://localhost:3000/cat2/:x?y=3&z=4
 // params ==>   :로 정의된 자리에 들어오는 값 :x
