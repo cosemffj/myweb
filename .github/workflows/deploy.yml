@@ -27,3 +27,4 @@ jobs:
             git pull origin main                # 최신 코드 가져오기
             npm install                         # 의존성 설치            
             sudo /usr/local/bin/pm2 restart all # PM2 앱 재시작
+            
