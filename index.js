@@ -5,15 +5,6 @@ const port = 3000
 
 app.use(cors())
 
-
-
-
-
-
-
-
-
-
 // .get: 메소드(get:주소창에 파라미터 전달 /post: body에 파라미터 전달)
 // '/' : 라우팅
 // () => : 콜백함수를 익명함수로 처리 
@@ -28,6 +19,7 @@ app.use(cors())
 // pm2 start index.js --watch  <-- 자동 재질행 옵션으로 start
 // pm2 kill     <- 모든프로세스 종료
 // pm2 status   <- 프로세스 상태 확인
+
 app.get('/', (req, res) => {
     res.send('Hello world')
 });
@@ -71,3 +63,6 @@ app.get('/cat2/:id', (req, res) => {
 app.listen(port, () => {
     console.log('port:' + port)
 });
+
+// 배포
+// git commit -am "커밋 메시지"
