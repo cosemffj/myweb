@@ -66,3 +66,4 @@ app.listen(port, () => {
 
 // 배포
 // git commit -am "커밋 메시지"
+// git push origin main
