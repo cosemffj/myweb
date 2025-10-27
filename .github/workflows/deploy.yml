@@ -25,5 +25,5 @@ jobs:
             cd /volume1/web/myweb               # NAS 프로젝트 경로
             git reset --hard HEAD               # 남아있는 변경사항 초기화
             git pull origin main                # 최신 코드 가져오기
-            npm install                         # 의존성 설치
-            pm2 restart all                     # PM2 앱 재시작
+            npm install                         # 의존성 설치            
+            sudo /usr/local/bin/pm2 restart all # PM2 앱 재시작
