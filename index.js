@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dog', (req, res) => {
-    res.send('Hello world dog')
+    res.send('Hello world dog') 
 });
 
 app.get('/cat3', (req, res) => {
