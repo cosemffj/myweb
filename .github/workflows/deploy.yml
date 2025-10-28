@@ -16,7 +16,7 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.NAS_SSH_KEY }}
 
       # 3. NAS에 파일 복사
       - name: Rsync to Synology NAS
