@@ -28,12 +28,12 @@ jobs:
       # 4️⃣ NAS에 파일 복사 (rsync)
       - name: Rsync to Synology NAS
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" --delete --exclude='.git' ./ deploy@${{ secrets.NAS_IP }}:/volume1/web/myweb/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" --delete --exclude='.git' ./ admin@${{ secrets.NAS_IP }}:/volume1/web/myweb/
 
       # 5️⃣ NAS에서 PM2 재시작
       - name: Restart PM2
         run: |
-          ssh -o StrictHostKeyChecking=no deploy@${{ secrets.NAS_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no admin@${{ secrets.NAS_IP }} << 'EOF'
             cd /volume1/web/myweb
             npm install
             sudo /usr/local/bin/pm2 restart all
