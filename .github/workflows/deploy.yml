@@ -25,7 +25,7 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.NAS_IP }} >> ~/.ssh/known_hosts
 
-      # 4️⃣ NAS에 파일 복사 (rsync, node_modules 제외, 권한 설정 무시)
+      # 4️⃣ NAS에 파일 복사 (rsync, node_modules 제외, 권한 문제 방지)
       - name: Rsync to Synology NAS
         run: |
           rsync -avz --no-perms \
@@ -36,7 +36,7 @@ jobs:
             -e "ssh -o StrictHostKeyChecking=no" \
             ./ admin@${{ secrets.NAS_IP }}:/volume1/web/myweb/
 
-      # 5️⃣ NAS에서 npm install & PM2 재시작
+      # 5️⃣ NAS에서 npm install & PM2 재시작 (sudo 비번 없이)
       - name: Install dependencies & Restart PM2
         run: |
           ssh -o StrictHostKeyChecking=no admin@${{ secrets.NAS_IP }} << 'EOF'
