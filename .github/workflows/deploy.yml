@@ -21,12 +21,12 @@ jobs:
       # 3. NAS에 파일 복사
       - name: Rsync to Synology NAS
         run: |
-          rsync -avz --delete --exclude='.git' ./ deploy@NAS_IP:/volume1/web/myweb/
+          rsync -avz --delete --exclude='.git' ./ deploy@${{ secrets.NAS_IP }}:/volume1/web/myweb/
 
       # 4. NAS에서 PM2 재시작
       - name: Restart PM2
         run: |
-          ssh -o StrictHostKeyChecking=no deploy@NAS_IP << 'EOF'
+          ssh -o StrictHostKeyChecking=no deploy@${{ secrets.NAS_IP }} << 'EOF'
             cd /volume1/web/myweb
             npm install
             pm2 restart all
