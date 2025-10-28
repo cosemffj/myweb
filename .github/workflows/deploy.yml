@@ -1,6 +1,4 @@
-name: Deploy to Synology NAS
-
-# main 브랜치에 push될 때 실행
+name: Deploy to Synology NAS via SSH (rsync + PM2)
 on:
   push:
     branches: [ main ]
@@ -10,21 +8,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 소스코드 체크아웃
+      # 1. 코드 체크아웃
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. SSH를 통해 NAS에 접속 후 배포
-      - name: Deploy via SSH to NAS
-        uses: appleboy/ssh-action@v0.1.10
+      # 2. SSH 비밀키 설정
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
         with:
-          host: ${{ secrets.NAS_IP }}           # NAS IP (Secrets 등록)
-          username: ${{ secrets.NAS_USER }}     # NAS 사용자 계정 (Secrets 등록)
-          key: ${{ secrets.NAS_SSH_KEY }}       # GitHub Secrets에 등록된 Private key
-          script: |
-            cd /volume1/web/myweb               # NAS 프로젝트 경로
-            git reset --hard HEAD               # 남아있는 변경사항 초기화
-            git pull origin main                # 최신 코드 가져오기
-            npm install                         # 의존성 설치            
-            sudo /usr/local/bin/pm2 restart all # PM2 앱 재시작 
-            
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # 3. NAS에 파일 복사
+      - name: Rsync to Synology NAS
+        run: |
+          rsync -avz --delete --exclude='.git' ./ deploy@NAS_IP:/volume1/web/myweb/
+
+      # 4. NAS에서 PM2 재시작
+      - name: Restart PM2
+        run: |
+          ssh -o StrictHostKeyChecking=no deploy@NAS_IP << 'EOF'
+            cd /volume1/web/myweb
+            npm install
+            pm2 restart all
+            pm2 save
+          EOF
