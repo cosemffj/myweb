@@ -25,7 +25,7 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.NAS_IP }} >> ~/.ssh/known_hosts
 
-      # 4️⃣ NAS에 파일 복사 (rsync, node_modules 제외, 권한 문제 방지)
+      # 4️⃣ NAS에 파일 복사 (rsync, node_modules 제외)
       - name: Rsync to Synology NAS
         run: |
           rsync -avz --no-perms \
@@ -41,7 +41,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no admin@${{ secrets.NAS_IP }} << 'EOF'
             cd /volume1/web/myweb
-            npm install       # node_modules는 여기서 설치
+            npm install
             sudo /usr/local/bin/pm2 restart all
             pm2 save
           EOF
