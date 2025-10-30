@@ -41,8 +41,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no admin@${{ secrets.NAS_IP }} << 'EOF'
             cd /volume1/web/myweb
-            npm install
+            sudo npm install
             sudo /usr/local/bin/pm2 restart all
             sudo pm2 save
           EOF
+
+   
  
