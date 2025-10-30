@@ -53,7 +53,6 @@ app.get('/cat2/:id', (req, res) => {
 });
 
 
-
 // app.get('/', function(req, res){
 //     res.send('Hello world')
 // })
