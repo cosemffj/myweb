@@ -43,6 +43,6 @@ jobs:
             cd /volume1/web/myweb
             npm install
             sudo /usr/local/bin/pm2 restart all
-            pm2 save
+            sudo pm2 save
           EOF
  
