@@ -46,7 +46,6 @@
 #             sudo pm2 save
 #           EOF
 
-
 name: Deploy to Synology NAS via SSH (rsync + PM2)
 
 on:
@@ -90,3 +89,5 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no admin@${{ secrets.NAS_IP }} \
             "cd /volume1/web/myweb && sudo npm install && sudo /usr/local/bin/pm2 restart all && sudo pm2 save"
+
+          
