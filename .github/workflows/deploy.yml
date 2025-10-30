@@ -91,19 +91,17 @@
 #             "cd /volume1/web/myweb && sudo npm install && sudo /usr/local/bin/pm2 restart all && sudo pm2 save"
 
 
-
-name: Deploy to Synology NAS via SSH (rsync + PM2)
+name: Test SSH Connection to NAS
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  test-ssh:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ 코드 체크아웃
+      # 1️⃣ 코드 체크아웃 (필수는 아니지만 일반 관례)
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -123,20 +121,3 @@ jobs:
       - name: Test SSH connection
         run: |
           ssh -o StrictHostKeyChecking=no admin@${{ secrets.NAS_IP }} "echo 'SSH connection successful!'"
-
-      # 5️⃣ NAS에 파일 복사 (rsync, node_modules 제외)
-      - name: Rsync to NAS
-        run: |
-          rsync -avz --no-perms \
-            --delete \
-            --exclude='.git' \
-            --exclude='node_modules' \
-            --ignore-errors \
-            -e "ssh -o StrictHostKeyChecking=no" \
-            ./ admin@${{ secrets.NAS_IP }}:/volume1/web/myweb/
-
-      # 6️⃣ NAS에서 npm install & PM2 재시작 (TTY 없이, sudo 비밀번호 없이)
-      - name: Install dependencies & Restart PM2
-        run: |
-          ssh -o StrictHostKeyChecking=no admin@${{ secrets.NAS_IP }} \
-            "cd /volume1/web/myweb && sudo npm install && sudo /usr/local/bin/pm2 restart all && sudo pm2 save"
